@@ -15,7 +15,8 @@ def get_files(path):
         if os.path.isfile(fullpath):
             yield fullpath
         else:
-            yield get_files(fullpath)
+            for file in get_files(fullpath):
+                yield file
 
 
 def get_most_important_word(files):
