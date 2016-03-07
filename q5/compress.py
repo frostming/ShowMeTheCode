@@ -12,15 +12,9 @@ def compress(source, target, maxsize=1280):
     img = Image.open(source)
     w, h = img.size
     if max(w, h) <= maxsize:
-        return None
-    if w > h:
-        ws = maxsize
-        hs = h * maxsize / w
-    else:
-        hs = maxsize
-        ws = w * maxsize / h
-    out = img.resize((ws, hs))
-    out.save(target)
+        return
+    img.thumbnail((maxsize, maxsize))
+    img.save(target)
 
 
 if __name__ == '__main__':

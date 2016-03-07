@@ -17,6 +17,13 @@ def rndColor():
 def rndColor2():
     return (random.randint(32, 127), random.randint(32, 127), random.randint(32, 127))
 
+def rndChar():
+    return chr(random.randint(65, 90))
+
+
+def rndTilt():
+    return random.randint(-30, 30)
+
 
 def draw_image():
     width = 60 * 4
@@ -29,7 +36,16 @@ def draw_image():
             draw.point((x, y), fill=rndColor())
 
     for t in range(4):
-        draw.text((t * 60 + 10, 10), random.choice(string.uppercase), font=font, fill=rndColor2())
+        draw.text((t * 60 + 10, 10), rndChar(), font=font, fill=rndColor2())
+        tmp = image.crop((60*t, 0, 60+60*t, 60))
+        tmp = tmp.rotate(rndTilt())
+        image.paste(tmp, (60*t, 0, 60+60*t, 60))
+
+    for x in range(width):
+        for y in range(height):
+            point = image.getpixel((x, y))
+            if point == (0, 0, 0):
+                draw.point((x, y), fill=rndColor())
     image = image.filter(ImageFilter.BLUR)
     image.save('captcha.jpg')
 
